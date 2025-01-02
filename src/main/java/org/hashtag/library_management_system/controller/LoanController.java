@@ -21,82 +21,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("loan")
 public class LoanController {
 	@Autowired
-    private LoanService LoanService;
+    private LoanService loanService;
 
     @PostMapping("/save")
     public ResponseEntity<ResponseStructure<Loan>> saveLoan(@RequestBody Loan loan) {
-        Loan savedLoan = LoanService.saveLoan(loan);
-        if(savedLoan!=null) {
-        	ResponseStructure<Loan> structure = new ResponseStructure<>(
-	                HttpStatus.CREATED.value(), savedLoan, "Loan Saved Successfully");
-	        return new ResponseEntity<>(structure, HttpStatus.CREATED);
-        }else {
-        	ResponseStructure<Loan> structure = new ResponseStructure<>(
-	                HttpStatus.BAD_REQUEST.value(), null, "Loan Not Saved");
-	        return new ResponseEntity<>(structure, HttpStatus.BAD_REQUEST);
-        }
-        
+        return loanService.saveLoan(loan);
     }
 
     @GetMapping("/loans")
     public ResponseEntity<ResponseStructure<List<Loan>>> getAllLoans() {
-        List<Loan> loans = LoanService.getAllLoans();
-        if(loans.size()!=0) {
-        	ResponseStructure<List<Loan>> structure = new ResponseStructure<>(
-	                HttpStatus.OK.value(), loans, "Loans Retrieved Successfully");
-	        return new ResponseEntity<>(structure, HttpStatus.OK);
-        }else {
-        	ResponseStructure<List<Loan>> structure = new ResponseStructure<>(
-	                HttpStatus.NOT_FOUND.value(), null, "Loans Not Found");
-	        return new ResponseEntity<>(structure, HttpStatus.NOT_FOUND);
-        }
-        
+        return loanService.getAllLoans();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseStructure<Loan>> getLoanById(@PathVariable int id) {
-        Loan loan = LoanService.getLoanById(id);
-        if(loan!=null) {
-        	ResponseStructure<Loan> structure = new ResponseStructure<>(
-	                HttpStatus.OK.value(), loan, "Loan Retrieved Successfully");
-	        return new ResponseEntity<>(structure, HttpStatus.OK);
-        }
-        else {
-        	ResponseStructure<Loan> structure = new ResponseStructure<>(
-	                HttpStatus.NOT_FOUND.value(), null, "Loan Not Found");
-	        return new ResponseEntity<>(structure, HttpStatus.NOT_FOUND);
-        }
-        
+        return loanService.getLoanById(id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseStructure<Void>> deleteLoan(@PathVariable int id) {
-    	Loan loan= LoanService.getLoanById(id);
-    	if(loan!=null) {
-    		LoanService.deleteLoan(id);
-	        ResponseStructure<Void> structure = new ResponseStructure<>(
-	                HttpStatus.OK.value(), null, "Loan Deleted Successfully");
-	        return new ResponseEntity<>(structure, HttpStatus.OK);
-    	}else {
-    		ResponseStructure<Void> structure = new ResponseStructure<>(
-	                HttpStatus.NOT_FOUND.value(), null, "Loan Not Found");
-	        return new ResponseEntity<>(structure, HttpStatus.NOT_FOUND);
-    	}
+    		return loanService.deleteLoan(id);
         
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ResponseStructure<Loan>> updateLoan(@RequestBody Loan loan, @PathVariable int id) {
-        Loan updatedLoan = LoanService.updateLoan(loan, id);
-        if(updatedLoan!=null) {
-        	ResponseStructure<Loan> structure = new ResponseStructure<>(
-	                HttpStatus.OK.value(), updatedLoan, "Loan Updated Successfully");
-	        return new ResponseEntity<>(structure, HttpStatus.OK);
-        }else {
-        	ResponseStructure<Loan> structure = new ResponseStructure<>(
-	                HttpStatus.NOT_FOUND.value(), updatedLoan, "Loan Not Found");
-	        return new ResponseEntity<>(structure, HttpStatus.NOT_FOUND);
-        }
+        return loanService.updateLoan(loan, id);
     }
 
 }
