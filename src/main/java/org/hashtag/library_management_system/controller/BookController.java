@@ -6,7 +6,6 @@ import org.hashtag.library_management_system.entity.Book;
 import org.hashtag.library_management_system.entity.ResponseStructure;
 import org.hashtag.library_management_system.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +39,7 @@ public class BookController {
 	        return bookService.getBookById(id);
 	    }
 	    @GetMapping("/genre/{genre}")
-	    public ResponseEntity<ResponseStructure<Book>> getBookByGenre(@PathVariable String genre) {
+	    public ResponseEntity<ResponseStructure<List<Book>>> getBookByGenre(@PathVariable String genre) {
 	        return bookService.findBookByGenre(genre);
 	    }
 

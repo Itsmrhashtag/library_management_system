@@ -42,7 +42,7 @@ public class BookDao {
 	        }
 	        return null;
 	    }
-	    public Book findBookByGenre(String genre) {
+	    public List<Book> findBookByGenre(String genre) {
 	    	return bookRepo.findBookByGenre(genre);
 	    }
 }

@@ -6,7 +6,6 @@ import org.hashtag.library_management_system.entity.Member;
 import org.hashtag.library_management_system.entity.ResponseStructure;
 import org.hashtag.library_management_system.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
