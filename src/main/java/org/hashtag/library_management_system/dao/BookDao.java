@@ -35,9 +35,9 @@ public class BookDao {
 	        Optional<Book> existingBook = bookRepo.findById(id);
 	        if (existingBook.isPresent()) {
 	            Book updatedBook = existingBook.get();
-	            updatedBook.setTitle(book.getTitle());
-	            updatedBook.setGenre(book.getGenre());
-	            updatedBook.setAuthor(book.getAuthor());
+	            if(book.getTitle()!=null) updatedBook.setTitle(book.getTitle());
+	            if(book.getGenre()!=null) updatedBook.setGenre(book.getGenre());
+	            if(book.getAuthor()!=null) updatedBook.setAuthor(book.getAuthor());
 	            return bookRepo.save(updatedBook);
 	        }
 	        return null;

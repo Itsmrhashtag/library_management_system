@@ -2,8 +2,12 @@ package org.hashtag.library_management_system.service;
 
 import java.util.List;
 
+import org.hashtag.library_management_system.dao.BookDao;
 import org.hashtag.library_management_system.dao.LoanDao;
+import org.hashtag.library_management_system.dao.MemberDao;
+import org.hashtag.library_management_system.entity.Book;
 import org.hashtag.library_management_system.entity.Loan;
+import org.hashtag.library_management_system.entity.Member;
 import org.hashtag.library_management_system.entity.ResponseStructure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +18,22 @@ import org.springframework.stereotype.Service;
 public class LoanService {
 	@Autowired
     private LoanDao loanDao;
+	@Autowired
+    private BookDao bookDao;
+	@Autowired
+    private MemberDao memberDao;
 
     public ResponseEntity<ResponseStructure<Loan>> saveLoan(Loan loan) {
         Loan savedLoan = loanDao.saveLoan(loan);
         if(savedLoan!=null) {
+        	Book book=bookDao.getBookById(savedLoan.getBook().getBookId());
+        	if(book!=null) {
+        		savedLoan.setBook(book);
+        	}
+        	Member member=memberDao.getMemberById(savedLoan.getMember().getMemberId());
+        	if(member!=null) {
+        		savedLoan.setMember(member);
+        	}
         	ResponseStructure<Loan> structure = new ResponseStructure<Loan>(HttpStatus.CREATED.value(), savedLoan, "Loan Saved Successfully");
 	        return new ResponseEntity<ResponseStructure<Loan>>(structure, HttpStatus.CREATED);
         }else {

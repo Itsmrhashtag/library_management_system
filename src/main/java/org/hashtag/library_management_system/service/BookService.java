@@ -2,7 +2,9 @@ package org.hashtag.library_management_system.service;
 
 import java.util.List;
 
+import org.hashtag.library_management_system.dao.AuthorDao;
 import org.hashtag.library_management_system.dao.BookDao;
+import org.hashtag.library_management_system.entity.Author;
 import org.hashtag.library_management_system.entity.Book;
 import org.hashtag.library_management_system.entity.ResponseStructure;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,18 @@ import org.springframework.stereotype.Service;
 public class BookService {
 	
 
-	 @Autowired
+	 	@Autowired
 	    private BookDao bookDao;
 
+	 	@Autowired
+	    private AuthorDao authorDao;
 	    public ResponseEntity<ResponseStructure<Book>> saveBook(Book book) {
 	        Book savedBook = bookDao.saveBook(book);
 	        if(savedBook!=null) {
+	        	Author author=authorDao.getAuthorById(savedBook.getAuthor().getAuthorId());
+	        	if(author!=null) {
+	        		savedBook.setAuthor(author);
+	        	}
 	        	ResponseStructure<Book> structure = new ResponseStructure<Book>(
 		                HttpStatus.CREATED.value(), savedBook, "Book Saved Successfully");
 		        return new ResponseEntity<ResponseStructure<Book>>(structure, HttpStatus.CREATED);

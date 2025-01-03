@@ -1,6 +1,5 @@
 package org.hashtag.library_management_system.dao;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,10 +35,11 @@ public class LoanDao {
         Optional<Loan> existingLoan = loanRepo.findById(id);
         if (existingLoan.isPresent()) {
             Loan updatedLoan = existingLoan.get();
-            updatedLoan.setLoanDate(LocalDate.now());
-            updatedLoan.setReturnDate(loan.getReturnDate());
-            updatedLoan.setBook(loan.getBook());
-            updatedLoan.setMember(loan.getMember());
+            if(loan.getLoanDate()!=null) updatedLoan.setLoanDate(loan.getLoanDate());
+            if(loan.getReturnDate()!=null) updatedLoan.setReturnDate(loan.getReturnDate());
+            if(loan.getBook()!=null) updatedLoan.setBook(loan.getBook());
+            if(loan.getMember()!=null) updatedLoan.setMember(loan.getMember());
+//            System.out.println(updatedLoan.getLoanDate()+" "+updatedLoan.getReturnDate());
             return loanRepo.save(updatedLoan);
         }
         return null;
